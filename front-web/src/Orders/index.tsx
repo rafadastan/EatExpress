@@ -1,10 +1,24 @@
+import { useEffect, useState } from 'react';
+import { fetchProducts } from '../api';
+import ProductList from './ProductList';
 import StepsHeader from './StepsHeader';
 import './style.css';
+import { Product } from './types';
 
 function Orders(){
+
+    const[products, setProducts] = useState<Product[]>([]);
+
+    useEffect(()=>{
+        fetchProducts()
+        .then(response => setProducts(response.data))
+        .catch(error => console.log(error))
+    },[]);
+
     return (
         <div className="orders-container">
             <StepsHeader />
+            <ProductList products={products} />
         </div>
     )
 }
